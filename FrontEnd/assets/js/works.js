@@ -1,5 +1,7 @@
-const reponse = await fetch("http://localhost:5678/api/works");
-const works =  await reponse.json();
+async function afficherTravaux(){
+const reponse = await fetch("http://localhost:5678/api/works", { method: 'GET' });
+const works = await reponse.json();
+console.log("coucou");
 
 for (let i = 0; i < works.length; i++) {
 
@@ -17,10 +19,10 @@ for (let i = 0; i < works.length; i++) {
 
     const imageElement = document.createElement("img");
     imageElement.src = travail.imageUrl;
-    const titreElement = document.createElement("h1");
-    titreElement.src = travail.title;
-    const categorieElement = document.createElement("h2");
-    categorieElement.src = travail.catergory;
+    const titreElement = document.createElement("figcaption");
+    titreElement.innerText = travail.title;
+    const categorieElement = document.createElement("figcaption");
+    categorieElement.innerText = travail.catergory;
 
     /*récupération des élements dans une fiche dans la gallery*/
 
@@ -30,3 +32,8 @@ for (let i = 0; i < works.length; i++) {
     element.appendChild(categorieElement);
 
 }
+}
+
+afficherTravaux();
+console.log("coucou2");
+
