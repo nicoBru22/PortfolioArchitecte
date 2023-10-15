@@ -1,17 +1,56 @@
-async function tutu(){
+function afficherTravaux(works){
+    /* methode qui prend un paramètre, mot clé = works. Si on change works, tous les autres works de la fonction change*/
+
+    for (let i = 0; i < works.length; i++) {
+    
+        /*Defini qu'un travail est un élément de works*/
+        const travail = works[i];
+    
+        /*lieu où seront placées les travaux*/
+        const sectionGallery = document.querySelector(".gallery");
+    
+    
+        /*création de la balise <figure> dédié à 1 travail*/
+        const element = document.createElement("figure");
+    
+        /*création de l'image, du titre et de la catégorie d'un travail*/
+    
+        const imageElement = document.createElement("img");
+        imageElement.src = travail.imageUrl;
+        const titreElement = document.createElement("figcaption");
+        titreElement.innerText = travail.title;
+        const categorieElement = document.createElement("figcaption");
+        categorieElement.innerText = travail.category.name;
+    
+        /*récupération des élements dans une fiche dans la gallery*/
+    
+        sectionGallery.appendChild(element);
+        element.appendChild(imageElement);
+        element.appendChild(titreElement);
+        element.appendChild(categorieElement);
+    
+    }
+};
+
+async function initialisation(){
     const reponse = await fetch("http://localhost:5678/api/works", { method: 'GET' });
     const travaux = await reponse.json();
     
     afficherTravaux(travaux);
 
-    const boutonObjets = document.querySelector("#boutonObjets"); /* je créé une constante boutonObjet en lien avec la balise id du html boutonObjet*/
-    boutonObjets.addEventListener("click", function () { /* j'ajoute un auditeur d'evenement click et je lui demande de faire quelque chose*/
-        const object_works = travaux.filter(function (travail) { /* je créé la constante object_works qui prend valeur les éléments du tableau travaux de l'api*/
-            return travail.category.id == 1
+    /* je créé une constante boutonObjet en lien avec la balise id du html boutonObjet*/
+    const boutonObjets = document.querySelector("#boutonObjets"); 
+    /* j'ajoute un auditeur d'evenement click et je lui demande de faire quelque chose*/
+    boutonObjets.addEventListener("click", function () { 
+        /* je créé la constante object_works qui prend pour valeur les éléments du tableau travaux de l'api*/
+        const object_works = travaux.filter(function (element) { 
+            return element.category.id == 1
         });
         console.log("On recupère les object", object_works.length, object_works)
-        document.querySelector(".gallery").innerHTML="";
-        afficherTravaux(object_works)
+        /*remise a zéro de la div gallery du html */
+        document.querySelector(".gallery").innerHTML=""; 
+        /*affiche les travaux object_works défini plus haut*/
+        afficherTravaux(object_works) 
     });
 
     const boutonAppartements = document.querySelector("#boutonAppartements");
@@ -46,40 +85,9 @@ async function tutu(){
 
 }
 
-function afficherTravaux(works){
-
-console.log("coucou");
-
-for (let i = 0; i < works.length; i++) {
-
-    /*Defini qu'un travail est un élément de works*/
-    const travail = works[i];
-
-    /*lieu où seront placées les travaux*/
-    const sectionGallery = document.querySelector(".gallery");
 
 
-    /*création de la balise <figure> dédié à 1 travail*/
-    const element = document.createElement("figure");
+initialisation(); /* joue le code de la fonction initialisation et donc affiche les travaux demandés*/
 
-    /*création de l'image, du titre et de la catégorie d'un travail*/
-
-    const imageElement = document.createElement("img");
-    imageElement.src = travail.imageUrl;
-    const titreElement = document.createElement("figcaption");
-    titreElement.innerText = travail.title;
-    const categorieElement = document.createElement("figcaption");
-    categorieElement.innerText = travail.category.name;
-
-    /*récupération des élements dans une fiche dans la gallery*/
-
-    sectionGallery.appendChild(element);
-    element.appendChild(imageElement);
-    element.appendChild(titreElement);
-    element.appendChild(categorieElement);
-
-}
-};
-
-tutu();
+console.log("le code js fonctionne");
 
