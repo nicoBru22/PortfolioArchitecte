@@ -206,3 +206,34 @@ footer nav ul {
 	margin: 2em
 }
 
+/*style css pour la page de connexion*/
+
+.formConnexion {
+	display: flex;
+	flex-direction: column;
+	width: 300px;
+	margin-left: 40%;
+	margin-top: 150px;
+}
+
+.logIn {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.MDPoublie {
+	text-align: center;
+	font-family: 'Work Sans';
+}
+
+.MDPInput {
+	height: 30px;
+	margin-bottom: 15px;
+	border: none;
+}
+
+.userInput {
+	height: 30px;
+	margin-bottom: 15px;
+	border: none;
+}
