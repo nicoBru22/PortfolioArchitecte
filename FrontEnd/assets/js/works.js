@@ -22,7 +22,7 @@ for (let i = 0; i < works.length; i++) {
     const titreElement = document.createElement("figcaption");
     titreElement.innerText = travail.title;
     const categorieElement = document.createElement("figcaption");
-    categorieElement.innerText = travail.catergory;
+    categorieElement.innerText = travail.category.name;
 
     /*récupération des élements dans une fiche dans la gallery*/
 
