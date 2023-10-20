@@ -1,11 +1,21 @@
-async function login(){
-    const reponse = await fetch("http://localhost:5678/api/user/login", { method: 'POST' });
-    const logIn = await reponse.json();
+const submit = document.querySelector('.seConnecter');
+
+function authentification() {
+    const donnees = {
+        param1: document.getelementbyclassname(".userInput"), /*au lieu de param, mettre comme dans l'API*/
+        param2: document.getelementbyclassname(".MDPInput");
+    };
+    const options = {
+        method: 'POST',
+        body: JSON.stringify( donnees )
+    };
+
+    fetch( 'http://localhost:5678/api/user/login', options )
+    .then( response => response.json() )
+    .then( response => {
+        console.log("connecté !!!")
+    } );
+  
 }
 
-login();
-
-const connexion = document.getElementsByClassName('seConnecter');
-envoyer.addEventListener("click", validation);
-
-function validation
+submit.addEventListener("click", authentification);
