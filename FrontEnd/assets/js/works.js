@@ -9,7 +9,6 @@ function afficherTravaux(works){
         /*lieu où seront placées les travaux*/
         const sectionGallery = document.querySelector(".gallery");
     
-    
         /*création de la balise <figure> dédié à 1 travail*/
         const element = document.createElement("figure");
     
@@ -87,7 +86,6 @@ async function initialisation(){
 
 
 
-initialisation(); /* joue le code de la fonction initialisation et donc affiche les travaux demandés*/
+initialisation(); /*joue le code de la fonction initialisation et donc affiche les travaux demandés*/
 
 console.log("le code js fonctionne");
-
