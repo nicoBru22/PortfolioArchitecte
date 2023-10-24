@@ -81,6 +81,14 @@ async function initialisation(){
         document.querySelector(".gallery").innerHTML="";
         afficherTravaux(tous_works)
     });
+    if (localStorage) {
+        console.log("il y a un token dans le localstorage", localStorage)
+        const modification = document.createElement("div");
+    }
+    else {
+        console.log("il n'y a rien dans le localstorage")
+    }
+
 
 }
 
