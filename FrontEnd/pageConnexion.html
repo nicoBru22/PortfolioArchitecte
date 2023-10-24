@@ -9,7 +9,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="connexion" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-    <script src="assets/js/login.js"></script>
+
+    
 </head>
 <body>
     <header>
@@ -29,20 +30,20 @@
     <h2 class="logIn elementForm">Log In</h2>
 
     <label for="utilisateur" class="elementForm labelUser">Email</label>
-    <input type="text" placeholder="Entrez votre adresse email" class="elementForm userInput">
+    <input type="text" placeholder="Entrez votre adresse email" class="elementForm" id="userInput">
 
     <label for="MDP" class="elementForm labelMDP">Mot de passe</label>
-    <input type="password" placeholder="Entrez votre mot de passe" class="elementForm MDPInput">
+    <input type="password" placeholder="Entrez votre mot de passe" class="elementForm" id="MDPInput">
 
-    <input type="submit" value="se connecter" class="elementForm seConnecter">
+    <input type="submit" value="se connecter" class="elementForm" id="seConnecter">
 
     <a href="" class="MDPoublie elementForm">Mot de passe oublié</a>
 </form>
 
-
-
+<script src="assets/js/login.js"></script>
 
     </div>
+
 </body>
 
 
