@@ -237,3 +237,13 @@ footer nav ul {
 	margin-bottom: 15px;
 	border: none;
 }
+
+#modification {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.lienModif {
+	text-decoration: none;
+}

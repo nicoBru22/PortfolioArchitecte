@@ -28,13 +28,12 @@ function authentification() {
         };
         console.log("Ce que contient la const optionRequete", optionRequete);
 
-        console.log("dans le try");
         fetch("http://localhost:5678/api/users/login", optionRequete)
             .then(response => {
                 console.log("resp", response);
 
                 if (!response.ok) {
-                    window.alert('Échec de la requête.');
+                    window.alert('Email ou mot de passe invalide');
                 }
 
                 return response.json();
@@ -42,14 +41,14 @@ function authentification() {
             .then(responseData => {
                 console.log("reponseData :", responseData);
                 if (responseData.token) {
-                    const authToken = responseData.token;
-                    localStorage.setItem('authToken', authToken);
+                    const token = responseData.token;
+                    sessionStorage.setItem('token', token);
                     console.log('Connexion réussie');
-                    console.log("ce qu'il y a dans le localstorage", localStorage)
+                    console.log("ce qu'il y a dans le localStorage", sessionStorage);
+                    console.log("ce qu'il y a sur token", token);
                     window.location.href = 'index.html';
-                } 
-                else {
-                    console.log('Connexion échouée');
+                } else {
+                    console.log("Email ou mot de passe invalide");
                 }
             })
             .catch(error => {
