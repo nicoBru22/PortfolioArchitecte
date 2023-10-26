@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<script src="https://kit.fontawesome.com/c1a6f2560a.js" crossorigin="anonymous"></script>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
@@ -39,13 +40,44 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<div id="modification">
+		<div id="projetModif">
 			<h2>Mes Projets
 			</h2>
-			<div id="iconeModif">
-			</div>
-			<div class="lienModif">
-			</div>
+				<div id="modification">
+					<i class="fa-regular fa-pen-to-square"></i>
+					<a id="openModal">Modifier</a>
+					<div id="modal" class="modal modal-container">
+						<div class="modal-content">
+							<span class="close" id="closeModal">&times;</span>
+							<div>Gallery Photo</div>
+							<div id="galleryModif">
+							</div>
+							<hr>
+							<button id="ajouterPhotoButton">Ajouter une photo</button>
+						</div>
+					</div>
+					<div id="modalb" class="modal-container" style="display: none;">
+						<span class="close" id="closeModalForm">&times;</span>
+						<div class="modalb-content">
+						<form action="POST" class="formAjoutTravail">
+							<div class="titreAjoutPhotoForm">Ajout Photo</div>
+						  
+							<label for="titre" class="titreLabel">Titre</label>
+							<input type="text" id="titre" placeholder="Titre du travail" class="titrTravail">
+						  
+							<label for="categorie" class="elementForm labelCategorie">Catégorie</label>
+							<input type="text" id="categorie" placeholder="Choisissez une catégorie" class="categorieTravail">
+
+							<label for="imageFile" class="elementForm labelImage">Sélectionnez une image</label>
+    						<input type="file" id="imageFile" name="imageFile" accept="image/*">
+
+							<input type="submit" value="Ajouter" id="envoiNewTravail">
+						</form>
+					</div>
+					</div>
+					
+				</div>
+
 		</div>
 		<div class="filtre">
 			<button class="boutonFiltre" id="boutonTous">Tous</button>

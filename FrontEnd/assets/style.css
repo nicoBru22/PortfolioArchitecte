@@ -124,6 +124,7 @@ li:hover {
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
+	width: 59%;
 }
 .filtre {
 	width: 100%;
@@ -244,6 +245,84 @@ footer nav ul {
 	justify-content: center;
 }
 
-.lienModif {
-	text-decoration: none;
+#projetModif {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+
+
+
+
+
+
+/* Styles pour la fenêtre modale */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999; /* Assure que la fenêtre modale est au-dessus de tout le contenu */
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #333;
+    max-width: 80%; /* Ajustez la largeur selon vos besoins */
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+#galleryModif {
+	display: flex;
+	flex-wrap: wrap;
+}
+.modal-image {
+	height: 100px;
+    display: block; /* Pour centrer l'image horizontalement */
+    margin: 0 auto;
+}
+img.modal-image{
+	margin: 10px;
+}
+div.modal-content{
+	width: 35%;
+}
+
+#modalb {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999; /* Assure que la fenêtre modale est au-dessus de tout le contenu */
+}
+.modalb-content {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #333;
+	width: 35%;
+	height: 60%;
+}
+.formAjoutTravail {
+	display: flex;
+ 	flex-direction: column;
 }
