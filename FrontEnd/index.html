@@ -43,36 +43,22 @@
 		<div id="projetModif">
 			<h2>Mes Projets
 			</h2>
-				<div id="modification">
+				<div id="modification" style="display: none;">
 					<i class="fa-regular fa-pen-to-square"></i>
-					<a id="openModal">Modifier</a>
-					<div id="modal" class="modal modal-container">
+					<a id="openModal">modifier</a>
+					<div id="modal" class="modal modal-container" style="display: none;">
 						<div class="modal-content">
 							<span class="close" id="closeModal">&times;</span>
-							<div>Gallery Photo</div>
+							<div id="galleryPhotoModal">Gallery Photo</div>
 							<div id="galleryModif">
 							</div>
 							<hr>
-							<button id="ajouterPhotoButton">Ajouter une photo</button>
+							<div id="styleButtonAjoutPhoto">
+								<button id="ajouterPhotoButton">Ajouter une photo</button>
+							</div>
 						</div>
 					</div>
-					<div id="modalb" class="modal-container" style="display: none;">
-						<span class="close" id="closeModalForm">&times;</span>
-						<div class="modalb-content">
-						<form action="POST" class="formAjoutTravail">
-							<div class="titreAjoutPhotoForm">Ajout Photo</div>
-						  
-							<label for="titre" class="titreLabel">Titre</label>
-							<input type="text" id="titre" placeholder="Titre du travail" class="titrTravail">
-						  
-							<label for="categorie" class="elementForm labelCategorie">Catégorie</label>
-							<input type="text" id="categorie" placeholder="Choisissez une catégorie" class="categorieTravail">
-
-							<label for="imageFile" class="elementForm labelImage">Sélectionnez une image</label>
-    						<input type="file" id="imageFile" name="imageFile" accept="image/*">
-
-							<input type="submit" value="Ajouter" id="envoiNewTravail">
-						</form>
+					<div id="modalb" class="modal modal-container" style="display: none;">
 					</div>
 					</div>
 					
