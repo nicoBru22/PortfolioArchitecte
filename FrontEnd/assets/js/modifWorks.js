@@ -1,18 +1,10 @@
-/* async function supprimerTravaux() {
-    const reponse = await fetch
 
-    deleteIcon.addEventListener('click', () => {
-        // Ajoutez ici la logique pour supprimer l'image (peut nécessiter une requête au serveur)
-        // Une fois l'image supprimée, vous pouvez mettre à jour l'affichage
-        element.remove();
-    });
-}*/
 
 function afficherFormulaire() {
     const ajouterPhotoButton = document.getElementById('ajouterPhotoButton');
-    const closeModalForm = document.querySelector('.fermerModal');
-    const retourModal = document.querySelector('.precedentModal');
     const modalb = document.getElementById('modalb');
+    let selectedImage;
+    console.log("token afficher formulaire", token);
 
     while (modalb.firstChild) {
         modalb.removeChild(modalb.firstChild);
@@ -26,7 +18,7 @@ function afficherFormulaire() {
     const labelTitre = document.createElement("label");
     const inputTitre = document.createElement("input");
     const labelCat = document.createElement("label");
-    const inputCat = document.createElement("input");
+    const selectCat = document.createElement("select");
     const submitForm = document.createElement("input");
     const titreForm = document.createElement("div");
     const formModal = document.createElement("form");
@@ -36,8 +28,10 @@ function afficherFormulaire() {
 
     const imgForm = document.createElement("div");
     const iconeImg = document.createElement("i");
+    const imgAffiche = document.createElement("img");
     const ajoutImg = document.createElement('input');
     const formatImg = document.createElement('div');
+
 
     
     // je mets des attributs aux elements créés
@@ -56,10 +50,13 @@ function afficherFormulaire() {
     formModal.classList.add('formModalb');
     ajoutImg.classList.add('inputImgTravail');
     inputTitre.classList.add('inputTitreTravail');
-    inputCat.classList.add('inputCatTravail');
+    selectCat.classList.add('selectCatTravail');
     modalbContent.classList.add('modalbContent');
     barre.classList.add('barre');
     iconeImg.classList.add("fa-regular", "fa-image")
+    imgAffiche.id = 'imageAffiche';
+
+
 
     formIcone.classList.add('formIcone');
     precedentIcon.classList.add("fas", "fa-arrow-left", "precedent-icon");
@@ -73,10 +70,13 @@ function afficherFormulaire() {
     boutonP.appendChild(precedentIcon);
     boutonX.appendChild(fermerFenetre);
 
-    // je met dans le formulaire, la div avec une icone, un boutton et le type d image accepté
+    // je met dans la div imgForm, la div avec une icone, un boutton et le type d image accepté
     imgForm.appendChild(iconeImg);
+    imgForm.appendChild(imgAffiche);
     imgForm.appendChild(ajoutImg);
     imgForm.appendChild(formatImg);
+
+    
 
     //dans le modalb, je mets = la modalbcontent qui contient : la div des icones, le titre et le formulaire
     modalbContent.appendChild(formIcone);
@@ -89,9 +89,31 @@ function afficherFormulaire() {
     formModal.appendChild(labelTitre);
     formModal.appendChild(inputTitre);
     formModal.appendChild(labelCat);
-    formModal.appendChild(inputCat);
+    formModal.appendChild(selectCat);
     formModal.appendChild(barre);
     formModal.appendChild(submitForm);
+
+    // recuperation des categories pour mettre dans le selectCat
+
+    fetch("http://localhost:5678/api/categories", { method: 'GET' })
+        .then(response => response.json())
+        .then(data => {
+            const selectCat = document.querySelector('.selectCatTravail');
+
+            // Ajoutez les catégories à la liste déroulante
+            data.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.id; // Vous devez ajuster cela en fonction de la structure des données
+                option.text = category.name; // Vous devez ajuster cela en fonction de la structure des données
+                selectCat.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des catégories :', error);
+        });
+
+// tous les evenements click pour le formulaire
+
 
 // je créé un evenement au click qui ferme la modal actuelle et ouvre la modale du formulaire
     ajouterPhotoButton.addEventListener('click', () => {
@@ -102,77 +124,76 @@ function afficherFormulaire() {
 
     ajoutImg.addEventListener('change', (event) => {
         const selectedImage = event.target.files[0];
+    
+        // Maintenant que vous avez l'image, vous pouvez effectuer des actions telles que l'afficher à l'utilisateur.
+        // Par exemple, vous pourriez créer une prévisualisation de l'image :
+        const imagePreview = document.getElementById('imageAffiche');
+        const reader = new FileReader();
+        reader.onload = function () {
+            imagePreview.src = reader.result;
+        };
+        reader.readAsDataURL(selectedImage);
     });
 
-    boutonX.addEventListener('click', () => {
+    boutonX.addEventListener('click', () => { //bouton fermer
         modalb.style.display = 'none';
         modal.style.display = "none";
     });
 
-    boutonP.addEventListener('click', () => {
+    boutonP.addEventListener('click', () => { //bouton precedent
         modalb.style.display = 'none';
         modal.style.display = "flex";
     });
 
-    window.addEventListener('click', (event) => {
+    window.addEventListener('click', (event) => { // si je click en dehors de la fenetre
         if (event.target == modalb) {
             modalb.style.display = 'none';
-            modal.style.display = "flex";
+            modal.style.display = "none";
         }
     });
-}
 
-function nouveauTravail() {
-    const envoi = document.querySelector('.submitFormulaire');
-    console.log("Affiche où se trouve le bouton d'envoi :", envoi);
+// j'envoi le formulaire sur le serveur
 
-    envoi.addEventListener("click", function (event) {
-        event.preventDefault(); // Empêche la soumission du formulaire
+formModal.addEventListener('submit', (event) => {
+    event.preventDefault(); // Empêche le rechargement de la page par défaut
+    console.log("le token dans addeventlisten", token)
 
-        const title = document.querySelector('.inputTitreTravail').value;
-        const categorieID = document.querySelector('.inputCatTravail').value;
-        const inputImg = document.querySelector('.inputImgTravail');
-        const selectedImage = inputImg.files[0];
+    // Récupérez les valeurs du formulaire
+    const titre = inputTitre.value;
+    const categorie = selectCat.value;
+    const image = ajoutImg;
 
-        console.log("titre =", title, "categorie =", categorieID, "image =", selectedImage);
+    console.log("l image en question", selectedImage)
+    // Créez un objet FormData pour envoyer les données du formulaire
+    const formData ={
+        'title': titre,
+        'category': categorie,
+        'image': selectedImage
+    };
 
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('imageURL', selectedImage);
-        formData.append('categorieID', categorieID);
+    // Effectuez la requête POST pour envoyer le formulaire
+    console.log("on a quoi ?", formData)
+    fetch("http://localhost:5678/api/works", {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.alert('Bravo, le travail a été créé avec succès.');
+        } else {
+            window.alert('Ça n\'a pas marché. Le travail n\'a pas été créé.');
+        }
 
-        const optionRequetePost = {
-            method: 'POST',
-            body: formData,
-        };
-        console.log("Ce que contient la const optionRequete", optionRequetePost);
-
-        fetch("http://localhost:5678/api/works", optionRequetePost)
-        .then(response => {
-            if (!response.ok) {
-                window.alert('Problème dans la transmission');
-            }
-            return response.json(); // Convertir la réponse en JSON
-        })
-        .then(responseData => {
-            console.log("Réponse du serveur :", responseData);
-    
-            // Vérifiez les données de la réponse et agissez en conséquence
-            if (responseData.success) {
-                // Le travail a été créé avec succès
-                console.log('Travail créé avec succès');
-                // Vous pouvez effectuer des actions supplémentaires ici, par exemple, afficher un message de succès
-            } else {
-                // Le serveur a renvoyé une réponse avec "success" à false, indiquant un échec
-                console.log('Échec de la création du travail');
-                // Vous pouvez afficher un message d'erreur ou prendre d'autres mesures en conséquence
-            }
-        })
-        .catch(error => {
-            // Gérer les erreurs, par exemple, afficher un message d'erreur
-            console.error('Erreur de connexion :', error);
-        });
+    })
+    .catch(error => {
+        console.error('Erreur lors de l\'envoi du formulaire :', error);
     });
+});
+
 }
 
 
@@ -204,6 +225,18 @@ function afficherTravauxModal(works) {
         element.classList.add("image-container");
         imageElement.classList.add("modal-image");
         deleteIcon.classList.add("fas", "fa-trash-can", "delete-icon");
+        
+        deleteIcon.addEventListener('click', () => {
+        
+            const optionRequetePostDelete = {
+                method: 'DELETE',
+            };
+            console.log("Ce que contient la const optionRequete", optionRequetePostDelete, travail.id);
+    
+          // fetch("http://localhost:5678/api/works/"+travail.id, optionRequetePostDelete);
+            // Une fois l'image supprimée, vous pouvez mettre à jour l'affichage
+            element.remove();
+        });
 
         imageElement.src = travail.imageUrl;
 
@@ -228,7 +261,6 @@ async function travauxModal() {
     nettoyerTravauxModal();
     afficherTravauxModal(travaux);
     afficherFormulaire();
-
 }
 
 if (token) {
