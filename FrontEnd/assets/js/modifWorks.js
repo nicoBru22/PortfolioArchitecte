@@ -1,99 +1,113 @@
-
-
 function afficherFormulaire() {
     const ajouterPhotoButton = document.getElementById('ajouterPhotoButton');
     const modalb = document.getElementById('modalb');
     let selectedImage;
-    console.log("token afficher formulaire", token);
 
     while (modalb.firstChild) {
         modalb.removeChild(modalb.firstChild);
     }
 
-    //je créé les élements de la modale
-    const precedentIcon = document.createElement("i");
-    const fermerFenetre = document.createElement("i");
-    const boutonP = document.createElement("button");
-    const boutonX = document.createElement("button");
-    const labelTitre = document.createElement("label");
-    const inputTitre = document.createElement("input");
-    const labelCat = document.createElement("label");
-    const selectCat = document.createElement("select");
-    const submitForm = document.createElement("input");
-    const titreForm = document.createElement("div");
-    const formModal = document.createElement("form");
-    const formIcone = document.createElement("div");
-    const modalbContent = document.createElement("div");
-    const barre = document.createElement("hr");
+        //je créé les élements de la modale
+        const precedentIcon = document.createElement("i");
+        const fermerFenetre = document.createElement("i");
+        const boutonP = document.createElement("button");
+        const boutonX = document.createElement("button");
+        const labelTitre = document.createElement("label");
+        const inputTitre = document.createElement("input");
+        const labelCat = document.createElement("label");
+        const selectCat = document.createElement("select");
+        const submitForm = document.createElement("input");
+        const titreForm = document.createElement("div");
+        const formModal = document.createElement("form");
+        const formIcone = document.createElement("div");
+        const modalbContent = document.createElement("div");
+        const barre = document.createElement("hr");
+        const imgForm = document.createElement("div");
+        const iconeImg = document.createElement("i");
+        const imgAffiche = document.createElement("img");
+        const ajoutImg = document.createElement('input');
+        const formatImg = document.createElement('div');
 
-    const imgForm = document.createElement("div");
-    const iconeImg = document.createElement("i");
-    const imgAffiche = document.createElement("img");
-    const ajoutImg = document.createElement('input');
-    const formatImg = document.createElement('div');
+        // je mets des attributs aux elements créés
+        labelTitre.setAttribute('for', 'inputTitre');
+        labelTitre.innerText = 'Titre';
+        labelCat.setAttribute('for', 'inputCat');
+        labelCat.innerText = "Categorie";
+        ajoutImg.type = "file";
+        ajoutImg.accept = ".jpg, .png";
+        ajoutImg.size = 4096000;
+        ajoutImg.name = "ajouImg";
+        submitForm.type = "submit";
+        submitForm.value = "Ajouter";
+        submitForm.classList.add('submitFormulaire');
+        titreForm.innerText = "Ajout Photo";
+        titreForm.classList.add('titreForm');
+        formModal.classList.add('formModalb');
+        ajoutImg.classList.add('inputImgTravail');
+        inputTitre.classList.add('inputTitreTravail');
+        selectCat.classList.add('selectCatTravail');
+        modalbContent.classList.add('modalbContent');
+        barre.classList.add('barre');
+        iconeImg.classList.add("fa-regular", "fa-image")
+        imgAffiche.id = 'imageAffiche';
+        formIcone.classList.add('formIcone');
+        precedentIcon.classList.add("fas", "fa-arrow-left", "precedent-icon");
+        fermerFenetre.classList.add("fas", "fa-times", "fermerFenetre");
+        precedentIcon.classList.add("precedentModal");
+        fermerFenetre.classList.add("fermerModal")
+        formatImg.innerText = "jpg, png : 4mo max";
+        imgForm.classList.add("divImgForm")
 
+        //je mets les icones dans un bouton chacun puis les boutons dans une div
+        formIcone.appendChild(boutonP);
+        formIcone.appendChild(boutonX);
+        boutonP.appendChild(precedentIcon);
+        boutonX.appendChild(fermerFenetre);
 
+        // je met dans la div imgForm, la div avec une icone, un boutton et le type d image accepté
+        imgForm.appendChild(iconeImg);
+        imgForm.appendChild(imgAffiche);
+        imgForm.appendChild(ajoutImg);
+        imgForm.appendChild(formatImg);
+
+        //dans le modalb, je mets = la modalbcontent qui contient : la div des icones, le titre et le formulaire
+        modalbContent.appendChild(formIcone);
+        modalbContent.appendChild(titreForm);
+        modalbContent.appendChild(formModal);
+        modalb.appendChild(modalbContent);
+
+        //je mets dans le formModal = photo, titre, categorie, la barre et le submit
+        formModal.appendChild(imgForm);
+        formModal.appendChild(labelTitre);
+        formModal.appendChild(inputTitre);
+        formModal.appendChild(labelCat);
+        formModal.appendChild(selectCat);
+        formModal.appendChild(barre);
+        formModal.appendChild(submitForm);
+
+        boutonX.addEventListener('click', () => { //bouton fermer
+            modalb.style.display = 'none';
+            modal.style.display = "none";
+        });
     
-    // je mets des attributs aux elements créés
-    labelTitre.setAttribute('for', 'inputTitre');
-    labelTitre.innerText = 'Titre';
-    labelCat.setAttribute('for', 'inputCat');
-    labelCat.innerText = "Categorie";
-    ajoutImg.type = "file";
-    ajoutImg.accept = ".jpg, .jpeg, .png";
-    ajoutImg.size = 4096000;
-    submitForm.type = "submit";
-    submitForm.value = "Ajouter";
-    submitForm.classList.add('submitFormulaire');
-    titreForm.innerText = "Ajout Photo";
-    titreForm.classList.add('titreForm');
-    formModal.classList.add('formModalb');
-    ajoutImg.classList.add('inputImgTravail');
-    inputTitre.classList.add('inputTitreTravail');
-    selectCat.classList.add('selectCatTravail');
-    modalbContent.classList.add('modalbContent');
-    barre.classList.add('barre');
-    iconeImg.classList.add("fa-regular", "fa-image")
-    imgAffiche.id = 'imageAffiche';
-
-
-
-    formIcone.classList.add('formIcone');
-    precedentIcon.classList.add("fas", "fa-arrow-left", "precedent-icon");
-    fermerFenetre.classList.add("fas", "fa-times", "fermerFenetre");
-    precedentIcon.classList.add("precedentModal");
-    fermerFenetre.classList.add("fermerModal")
-
-    //je mets les icones dans un bouton chacun puis les boutons dans une div
-    formIcone.appendChild(boutonP);
-    formIcone.appendChild(boutonX);
-    boutonP.appendChild(precedentIcon);
-    boutonX.appendChild(fermerFenetre);
-
-    // je met dans la div imgForm, la div avec une icone, un boutton et le type d image accepté
-    imgForm.appendChild(iconeImg);
-    imgForm.appendChild(imgAffiche);
-    imgForm.appendChild(ajoutImg);
-    imgForm.appendChild(formatImg);
-
+        boutonP.addEventListener('click', () => { //bouton precedent
+            modalb.style.display = 'none';
+            modal.style.display = "flex";
+        });
     
+        window.addEventListener('click', (event) => { // si je click en dehors de la fenetre
+            if (event.target == modalb) {
+                modalb.style.display = 'none';
+                modal.style.display = "none";
+            }
+        });
 
-    //dans le modalb, je mets = la modalbcontent qui contient : la div des icones, le titre et le formulaire
-    modalbContent.appendChild(formIcone);
-    modalbContent.appendChild(titreForm);
-    modalbContent.appendChild(formModal);
-    modalb.appendChild(modalbContent);
-
-    //je mets dans le formModal = photo, titre, categorie, la barre et le submit
-    formModal.appendChild(imgForm);
-    formModal.appendChild(labelTitre);
-    formModal.appendChild(inputTitre);
-    formModal.appendChild(labelCat);
-    formModal.appendChild(selectCat);
-    formModal.appendChild(barre);
-    formModal.appendChild(submitForm);
-
-    // recuperation des categories pour mettre dans le selectCat
+        //ouvre la modalb actuelle et ferme la modale du formulaire
+        ajouterPhotoButton.addEventListener('click', () => {
+            modalb.style.display = 'flex';
+            modal.style.display = "none";
+            formModal.reset();
+        });
 
     fetch("http://localhost:5678/api/categories", { method: 'GET' })
         .then(response => response.json())
@@ -112,18 +126,10 @@ function afficherFormulaire() {
             console.error('Erreur lors de la récupération des catégories :', error);
         });
 
-// tous les evenements click pour le formulaire
-
-
-// je créé un evenement au click qui ferme la modal actuelle et ouvre la modale du formulaire
-    ajouterPhotoButton.addEventListener('click', () => {
-        modalb.style.display = 'flex';
-        modal.style.display = "none";
-        formModal.reset();
-    });
 
     ajoutImg.addEventListener('change', (event) => {
-        const selectedImage = event.target.files[0];
+        selectedImage = event.target.files[0];
+        console.log("console log dans l addeventlistener",selectedImage)
     
         // Maintenant que vous avez l'image, vous pouvez effectuer des actions telles que l'afficher à l'utilisateur.
         // Par exemple, vous pourriez créer une prévisualisation de l'image :
@@ -135,64 +141,53 @@ function afficherFormulaire() {
         reader.readAsDataURL(selectedImage);
     });
 
-    boutonX.addEventListener('click', () => { //bouton fermer
-        modalb.style.display = 'none';
-        modal.style.display = "none";
-    });
+    console.log("cosollog après l evenement", selectedImage)
 
-    boutonP.addEventListener('click', () => { //bouton precedent
-        modalb.style.display = 'none';
-        modal.style.display = "flex";
-    });
+    // j'envoi le formulaire sur le serveur
 
-    window.addEventListener('click', (event) => { // si je click en dehors de la fenetre
-        if (event.target == modalb) {
-            modalb.style.display = 'none';
-            modal.style.display = "none";
-        }
-    });
+    formModal.addEventListener('submit', (event) => {
+        event.preventDefault(); // Empêche le rechargement de la page par défaut
 
-// j'envoi le formulaire sur le serveur
+        // Récupérez les valeurs du formulaire
+        const form = new FormData();
+        const image = ajoutImg.files[0];
+        const titre = inputTitre.value;
+        const categorie = selectCat.value;
+        
 
-formModal.addEventListener('submit', (event) => {
-    event.preventDefault(); // Empêche le rechargement de la page par défaut
-    console.log("le token dans addeventlisten", token)
+        console.log("le titre =", inputTitre.value)
+        console.log("la categorie =", selectCat.value)
+        console.log("l image en question", image)
 
-    // Récupérez les valeurs du formulaire
-    const titre = inputTitre.value;
-    const categorie = selectCat.value;
-    const image = ajoutImg;
+        form.append("image", image);
+        form.append("title", titre);
+        form.append("category", categorie);
 
-    console.log("l image en question", selectedImage)
-    // Créez un objet FormData pour envoyer les données du formulaire
-    const formData ={
-        'title': titre,
-        'category': categorie,
-        'image': selectedImage
-    };
+
+
 
     // Effectuez la requête POST pour envoyer le formulaire
-    console.log("on a quoi ?", formData)
+    console.log("on a quoi ?", form)
     fetch("http://localhost:5678/api/works", {
         method: 'POST',
         headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
         },
-        body: formData
+        body: form,
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            window.alert('Bravo, le travail a été créé avec succès.');
-        } else {
-            window.alert('Ça n\'a pas marché. Le travail n\'a pas été créé.');
-        }
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.alert('Bravo, le travail a été créé avec succès.');
+            } else {
+                window.alert('Ça n\'a pas marché. Le travail n\'a pas été créé.');
+            }
 
-    })
-    .catch(error => {
-        console.error('Erreur lors de l\'envoi du formulaire :', error);
+        })
+        .catch(error => {
+            console.error('Erreur lors de l\'envoi du formulaire :', error);
+        });
     });
-});
 
 }
 
@@ -209,9 +204,9 @@ formModal.addEventListener('submit', (event) => {
 const token = sessionStorage.getItem('token');
 console.log("le fameux token", token);
 
-/*function supprimerToken() {
+function supprimerToken() {
     sessionStorage.removeItem('token');
-}*/
+}
 
 function afficherTravauxModal(works) {
     const galleryModif = document.querySelector("#galleryModif");
@@ -230,10 +225,13 @@ function afficherTravauxModal(works) {
         
             const optionRequetePostDelete = {
                 method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
             };
             console.log("Ce que contient la const optionRequete", optionRequetePostDelete, travail.id);
     
-          // fetch("http://localhost:5678/api/works/"+travail.id, optionRequetePostDelete);
+            fetch("http://localhost:5678/api/works/"+travail.id, optionRequetePostDelete);
             // Une fois l'image supprimée, vous pouvez mettre à jour l'affichage
             element.remove();
         });
