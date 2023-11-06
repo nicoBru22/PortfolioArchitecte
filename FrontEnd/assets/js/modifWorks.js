@@ -1,5 +1,5 @@
 function afficherFormulaire() {
-    const ajouterPhotoButton = document.getElementById('ajouterPhotoButton');
+    const ajouterPhotoButton = document.getElementById('ajoutPhoto');
     const modalb = document.getElementById('modalb');
     let selectedImage;
 
@@ -87,12 +87,12 @@ function afficherFormulaire() {
 
         boutonX.addEventListener('click', () => { //bouton fermer
             modalb.style.display = 'none';
-            modal.style.display = "none";
+            modalA.style.display = "none";
         });
     
         boutonP.addEventListener('click', () => { //bouton precedent
             modalb.style.display = 'none';
-            modal.style.display = "flex";
+            modalA.style.display = "flex";
         });
     
         window.addEventListener('click', (event) => { // si je click en dehors de la fenetre
@@ -105,7 +105,7 @@ function afficherFormulaire() {
         //ouvre la modalb actuelle et ferme la modale du formulaire
         ajouterPhotoButton.addEventListener('click', () => {
             modalb.style.display = 'flex';
-            modal.style.display = "none";
+            modalA.style.display = "none";
             formModal.reset();
         });
 
@@ -126,6 +126,7 @@ function afficherFormulaire() {
             console.error('Erreur lors de la récupération des catégories :', error);
         });
 
+    var imageInput = document.getElementById ('fileInput');
 
     ajoutImg.addEventListener('change', (event) => {
         selectedImage = event.target.files[0];
@@ -135,8 +136,8 @@ function afficherFormulaire() {
         // Par exemple, vous pourriez créer une prévisualisation de l'image :
         const imagePreview = document.getElementById('imageAffiche');
         const reader = new FileReader();
-        reader.onload = function () {
-            imagePreview.src = reader.result;
+        reader.onload = function (e) {
+            imagePreview.src = e.target.result;
         };
         reader.readAsDataURL(selectedImage);
     });
@@ -148,19 +149,21 @@ function afficherFormulaire() {
     formModal.addEventListener('submit', (event) => {
         event.preventDefault(); // Empêche le rechargement de la page par défaut
 
+
         // Récupérez les valeurs du formulaire
         const form = new FormData();
         const image = ajoutImg.files[0];
         const titre = inputTitre.value;
         const categorie = selectCat.value;
         
+        console.log("ce qu'il y a dans image", ajoutImg.files[0]);
 
         console.log("le titre =", inputTitre.value)
         console.log("la categorie =", selectCat.value)
         console.log("l image en question", image)
 
-        form.append("image", image);
         form.append("title", titre);
+        form.append("image", image);
         form.append("category", categorie);
 
 
@@ -176,8 +179,8 @@ function afficherFormulaire() {
         body: form,
     })
         .then(response => response.json())
-        .then(data => {
-            if (data.success) {
+        .then(response => {
+            if (response.ok) {
                 window.alert('Bravo, le travail a été créé avec succès.');
             } else {
                 window.alert('Ça n\'a pas marché. Le travail n\'a pas été créé.');
@@ -203,6 +206,7 @@ function afficherFormulaire() {
 
 const token = sessionStorage.getItem('token');
 console.log("le fameux token", token);
+
 
 function supprimerToken() {
     sessionStorage.removeItem('token');
@@ -233,7 +237,9 @@ function afficherTravauxModal(works) {
     
             fetch("http://localhost:5678/api/works/"+travail.id, optionRequetePostDelete);
             // Une fois l'image supprimée, vous pouvez mettre à jour l'affichage
+            
             element.remove();
+
         });
 
         imageElement.src = travail.imageUrl;
@@ -265,30 +271,64 @@ if (token) {
     console.log("Il y a un token dans le sessionStorage");
 
     modification.style.display = "flex";
+    boutonDeconnexion.style.display = "flex";
 
     const openModalButton = document.getElementById('openModal');
-    const closeModalButton = document.getElementById('closeModal');
-    const modal = document.getElementById('modal');
+    const modalA = document.getElementById('modal');
+
+    const modalaContent = document.createElement("div");
+    const divFermer = document.createElement("div");
+    const closeModalA = document.createElement("button");
+    const fermerModalA = document.createElement("i");
+    const titreModalA = document.createElement("div");
+    const galleryModalA = document.createElement("div");
+    const hr = document.createElement("hr");
+    const ajoutPhoto = document.createElement("button");
+
+    galleryModalA.id = 'galleryModif';
+    divFermer.id = 'divFermer';
+    fermerModalA.classList.add("fas", "fa-times", "fermerModalA");
+    titreModalA.id = 'titreModalA';
+    ajoutPhoto.innerText = "Ajouter une photo";
+    ajoutPhoto.id = 'ajoutPhoto';
+    modalaContent.id = 'modalaContent';
+    titreModalA.innerText = "Gallery Photo";
+    hr.classList.add("barre");
+
+    closeModalA.appendChild(fermerModalA);
+    divFermer.appendChild(closeModalA);
+    modalaContent.appendChild(divFermer);
+    modalaContent.appendChild(titreModalA);
+    modalaContent.appendChild(galleryModalA);
+    modalaContent.appendChild(hr);
+    modalaContent.appendChild(ajoutPhoto);
+    modalA.appendChild(modalaContent);
+    
     
     const filtre = document.querySelector(".filtre");
     filtre.style.display = "none";
 
     openModalButton.addEventListener('click', () => {
-        modal.style.display = 'flex';
+        modalA.style.display = 'flex';
         travauxModal();
     });
 
-    closeModalButton.addEventListener('click', () => {
-        modal.style.display = 'none';
+    closeModalA.addEventListener('click', () => {
+        modalA.style.display = 'none';
         nettoyerTravauxModal();
     });
 
     window.addEventListener('click', (event) => {
         if (event.target == modal) {
-            modal.style.display = 'none';
+            modalA.style.display = 'none';
             nettoyerTravauxModal();
         }
     });
+
+    boutonDeconnexion.addEventListener('click', () => {
+        supprimerToken();
+        location.reload();
+    })
 
     // Attachez un gestionnaire d'événements à l'événement beforeunload pour supprimer le token lors de la fermeture de la page
     window.addEventListener('beforeunload', supprimerToken);
@@ -297,3 +337,9 @@ else {
     console.log("Il n'y a rien dans le sessionStorage");
     modal.style.display = "none";
 }
+
+
+
+
+
+
