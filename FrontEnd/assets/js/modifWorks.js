@@ -1,7 +1,9 @@
 function afficherFormulaire() {
     const ajouterPhotoButton = document.getElementById('ajoutPhoto');
     const modalb = document.getElementById('modalb');
+    const modalA = document.getElementById('modal');
     let selectedImage;
+    const gallery = document.getElementsByClassName("gallery");
 
     while (modalb.firstChild) {
         modalb.removeChild(modalb.firstChild);
@@ -48,7 +50,7 @@ function afficherFormulaire() {
         selectCat.classList.add('selectCatTravail');
         modalbContent.classList.add('modalbContent');
         barre.classList.add('barre');
-        iconeImg.classList.add("fa-regular", "fa-image")
+        iconeImg.classList.add("fa-regular", "fa-image", "iconeImg")
         imgAffiche.id = 'imageAffiche';
         formIcone.classList.add('formIcone');
         precedentIcon.classList.add("fas", "fa-arrow-left", "precedent-icon");
@@ -93,12 +95,13 @@ function afficherFormulaire() {
         boutonP.addEventListener('click', () => { //bouton precedent
             modalb.style.display = 'none';
             modalA.style.display = "flex";
+            travauxModal();
         });
     
         window.addEventListener('click', (event) => { // si je click en dehors de la fenetre
             if (event.target == modalb) {
                 modalb.style.display = 'none';
-                modal.style.display = "none";
+                modalA.style.display = "none";
             }
         });
 
@@ -107,6 +110,8 @@ function afficherFormulaire() {
             modalb.style.display = 'flex';
             modalA.style.display = "none";
             formModal.reset();
+            const imagePreview = document.getElementById('imageAffiche');
+            imagePreview.src = '';
         });
 
     fetch("http://localhost:5678/api/categories", { method: 'GET' })
@@ -142,8 +147,6 @@ function afficherFormulaire() {
         reader.readAsDataURL(selectedImage);
     });
 
-    console.log("cosollog après l evenement", selectedImage)
-
     // j'envoi le formulaire sur le serveur
 
     formModal.addEventListener('submit', (event) => {
@@ -156,57 +159,42 @@ function afficherFormulaire() {
         const titre = inputTitre.value;
         const categorie = selectCat.value;
         
-        console.log("ce qu'il y a dans image", ajoutImg.files[0]);
-
-        console.log("le titre =", inputTitre.value)
-        console.log("la categorie =", selectCat.value)
-        console.log("l image en question", image)
-
         form.append("title", titre);
         form.append("image", image);
         form.append("category", categorie);
 
+        async function envoyerFormulaire() {
+            try {
+                const reponseServeur = await fetch("http://localhost:5678/api/works", {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: form,
+                });
+                if (reponseServeur.ok) {
+                    console.log("ce qu'il y a dans reponseServeur", reponseServeur);
+                    window.alert('Bravo, le travail a été créé avec succès.');
+                    formModal.reset();
+                    const imagePreview = document.getElementById('imageAffiche');
+                    imagePreview.src = '';
 
-
-
-    // Effectuez la requête POST pour envoyer le formulaire
-    console.log("on a quoi ?", form)
-    fetch("http://localhost:5678/api/works", {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        },
-        body: form,
-    })
-        .then(response => response.json())
-        .then(response => {
-            if (response.ok) {
-                window.alert('Bravo, le travail a été créé avec succès.');
-            } else {
-                window.alert('Ça n\'a pas marché. Le travail n\'a pas été créé.');
+                } else {
+                    // Ajoutez des détails supplémentaires si nécessaire
+                    console.error(`La requête a échoué avec le statut: ${reponseServeur.status}`);
+                    window.alert('Ça n\'a pas marché. Le travail n\'a pas été créé.');
+                }
+            } catch (error) {
+                console.error('Erreur lors de l\'envoi du formulaire :', error);
             }
-
-        })
-        .catch(error => {
-            console.error('Erreur lors de l\'envoi du formulaire :', error);
-        });
+        }
+        envoyerFormulaire();
     });
 
 }
 
-
-
-
-
-
-
-
-
-// A partir d'ici tout fonctionne 
-
 const token = sessionStorage.getItem('token');
 console.log("le fameux token", token);
-
 
 function supprimerToken() {
     sessionStorage.removeItem('token');
@@ -272,6 +260,8 @@ if (token) {
 
     modification.style.display = "flex";
     boutonDeconnexion.style.display = "flex";
+    const login = document.getElementById('login');
+    login.style.display = "none";
 
     const openModalButton = document.getElementById('openModal');
     const modalA = document.getElementById('modal');

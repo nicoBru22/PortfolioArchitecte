@@ -94,6 +94,9 @@ nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
 }
+a{
+	text-decoration: none;
+}
 
 li:hover {
 	color: #B1663C;
@@ -145,6 +148,13 @@ li:hover {
 	font-family: 'Work Sans';
 	font-size: 16px;
 	font-weight: 600;
+	cursor: pointer;
+}
+
+.boutonFiltre:active {
+	background-color: #1D6154;
+	color: white; /* Couleur du texte lorsque le bouton est enfoncé */
+
 }
 .gallery {
 	display: grid;
@@ -199,6 +209,7 @@ input[type="submit"]{
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
+	cursor: pointer;
 }
 
 footer nav ul {
@@ -365,6 +376,11 @@ div.modal-content{
 }
 .titreForm {
 	font-size: 26px;
+	width: 100%;
+	justify-content: center;
+	display: flex;
+	font-size: 26px;
+	margin: 30px;
 }
 
 .formModalb {
@@ -373,6 +389,22 @@ div.modal-content{
 	justify-content: space-between;
 	width: 70%;
 	height: 60%;
+	margin: 40px;
+}
+
+.divImgForm {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #E8F1F6;
+	border-radius: 10px;
+	padding: 30px;
+	height: 312px;
+	margin-bottom: 20px;
+}
+.iconeImg {
+	font-size: 140px;
+	position: absolute;
 }
 .barre {
 	width: 80%;
@@ -450,6 +482,7 @@ div.modal-content{
 	text-align: center;
 	border-radius: 60px;
 	height: 40px;
+	cursor: pointer;
 }
 
 #boutonDeconnexion {
