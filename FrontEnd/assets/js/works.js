@@ -1,5 +1,3 @@
-
-
 function afficherTravaux(works){
     /* methode qui prend un paramètre, mot clé = works. Si on change works, tous les autres works de la fonction change*/
 
@@ -88,4 +86,3 @@ async function initialisation(){
 initialisation(); /*joue le code de la fonction initialisation et donc affiche les travaux demandés*/
 
 console.log("le code js fonctionne");
-
