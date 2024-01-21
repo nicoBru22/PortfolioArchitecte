@@ -114,6 +114,10 @@ li:hover {
 	width: 80%;
 }
 
+#titrePhoto {
+	display: none;
+}
+
 #introduction article {
 	flex: 1
 }

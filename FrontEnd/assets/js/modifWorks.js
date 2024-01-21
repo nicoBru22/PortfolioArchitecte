@@ -1,23 +1,16 @@
 
-const token = sessionStorage.getItem('token');
-console.log("le fameux token", token);
+const token = sessionStorage.getItem('token'); //je garde le token toute jusqu'à la fermeture de la session
 const galleryIndex = document.querySelector(".gallery");
 
-function afficherTravaux(works){
-    /* methode qui prend un paramètre, mot clé = works. Si on change works, tous les autres works de la fonction change*/
+function afficherTravaux(works){ //je refais le même code que pour l'affichage des travaux et les filtres dans "works.js"
 
     for (let i = 0; i < works.length; i++) {
     
-        /*Defini qu'un travail est un élément de works*/
         const travail = works[i];
     
-        /*lieu où seront placées les travaux*/
         const sectionGallery = document.querySelector(".gallery");
     
-        /*création de la balise <figure> dédié à 1 travail*/
         const element = document.createElement("figure");
-    
-        /*création de l'image, du titre et de la catégorie d'un travail*/
     
         const imageElement = document.createElement("img");
         imageElement.src = travail.imageUrl;
@@ -26,8 +19,6 @@ function afficherTravaux(works){
         const categorieElement = document.createElement("figcaption");
         categorieElement.innerText = travail.category.name;
     
-        /*récupération des élements dans une fiche dans la gallery*/
-    
         sectionGallery.appendChild(element);
         element.appendChild(imageElement);
         element.appendChild(titreElement);
@@ -35,64 +26,47 @@ function afficherTravaux(works){
     
     }
 };
-
 async function initialisation(){
     const reponse = await fetch("http://localhost:5678/api/works", { method: 'GET' });
     const travaux = await reponse.json();
-    
-    console.log("avant afficherTravaux" ,travaux)
 
     afficherTravaux(travaux);
 
-    console.log("après afficherTravaux" ,travaux)
-
-    /* je créé une constante boutonObjet en lien avec la balise id du html boutonObjet*/
     const boutonObjets = document.querySelector("#boutonObjets"); 
-    /* j'ajoute un auditeur d'evenement click et je lui demande de faire quelque chose*/
     boutonObjets.addEventListener("click", function () { 
-        /* je créé la constante object_works qui prend pour valeur les éléments du tableau travaux de l'api*/
         const object_works = travaux.filter(function (element) { 
             return element.category.id == 1
         });
-        console.log("On recupère les object", object_works.length, object_works)
-        /*remise a zéro de la div gallery du html */
         document.querySelector(".gallery").innerHTML=""; 
-        /*affiche les travaux object_works défini plus haut*/
         afficherTravaux(object_works) 
     });
-
     const boutonAppartements = document.querySelector("#boutonAppartements");
     boutonAppartements.addEventListener("click", function () {
         const appart_works = travaux.filter(function (travail) {
             return travail.category.id == 2
         });
-        console.log("on récupère les appartements", appart_works.length, appart_works)
         document.querySelector(".gallery").innerHTML="";
         afficherTravaux(appart_works)
     });
-
     const boutonHR = document.querySelector("#boutonHR");
     boutonHR.addEventListener("click", function () {
         const HR_works = travaux.filter(function (travail) {
             return travail.category.id == 3
         });
-        console.log("on récupère les hotels & restaurants", HR_works.length, HR_works)
         document.querySelector(".gallery").innerHTML="";
         afficherTravaux(HR_works)
     });
-
     const boutonTous = document.querySelector("#boutonTous");
     boutonTous.addEventListener("click", function () {
         const tous_works = travaux.filter(function (travail) {
             return travail.category.id == 1, 2, 3
         });
-        console.log("on récupère tous les travaux", tous_works.length, tous_works)
         document.querySelector(".gallery").innerHTML="";
         afficherTravaux(tous_works)
     });
 }
 
-function afficherFormulaire() {
+function afficherFormulaire() { //je créé les modal et le formulaire pour pouvoir l'envoyer au serveur//
     const ajouterPhotoButton = document.getElementById('ajoutPhoto');
     const modalb = document.getElementById('modalb');
     const modalA = document.getElementById('modal');
@@ -195,7 +169,7 @@ function afficherFormulaire() {
             travauxModal();
         });
     
-        window.addEventListener('click', (event) => { // si je click en dehors de la fenetre
+        window.addEventListener('click', (event) => { // si je click en dehors de la fenetre cela ferme les modal
             if (event.target == modalb) {
                 modalb.style.display = 'none';
                 modalA.style.display = "none";
@@ -234,8 +208,7 @@ function afficherFormulaire() {
         selectedImage = event.target.files[0];
         console.log("console log dans l addeventlistener",selectedImage)
     
-        // Maintenant que vous avez l'image, vous pouvez effectuer des actions telles que l'afficher à l'utilisateur.
-        // Par exemple, vous pourriez créer une prévisualisation de l'image :
+        /* je fais une prévisualitation de l'image*/
         const imagePreview = document.getElementById('imageAffiche');
         const reader = new FileReader();
         reader.onload = function (e) {
@@ -248,8 +221,7 @@ function afficherFormulaire() {
     // j'envoi le formulaire sur le serveur
 
     formModal.addEventListener('submit', (event) => {
-        event.preventDefault(); // Empêche le rechargement de la page par défaut
-
+        event.preventDefault();
 
         // Récupérez les valeurs du formulaire
         const form = new FormData();
@@ -271,23 +243,15 @@ function afficherFormulaire() {
                     body: form,
                 });
                 if (reponseServeur.ok) {
-
-                    console.log("ce qu'il y a dans reponseServeur", reponseServeur);
-
                     window.alert('Bravo, le travail a été créé avec succès.');
-
                     formModal.reset();
-
                     const imagePreview = document.getElementById('imageAffiche');
                     imagePreview.src = '';
-
                         while (galleryIndex.firstChild) {
                             galleryIndex.removeChild(galleryIndex.firstChild);
                         }
                         initialisation();
-
                 } else {
-                    // Ajoutez des détails supplémentaires si nécessaire
                     console.error(`La requête a échoué avec le statut: ${reponseServeur.status}`);
                     window.alert('Ça n\'a pas marché. Le travail n\'a pas été créé.');
                 }
@@ -300,13 +264,11 @@ function afficherFormulaire() {
 
 }
 
-/*
-function supprimerToken() {
+function supprimerToken() { //Fonction pour la suppression du token de connexion qui est dans le sessionstorage
     sessionStorage.removeItem('token');
 }
-*/
 
-function afficherTravauxModal(works) {
+function afficherTravauxModal(works) { /*J'affiche les travaux dans une modal avec la possibilité de les supprimer*/
     const galleryModif = document.querySelector("#galleryModif");
 
     for (let i = 0; i < works.length; i++) {
@@ -319,23 +281,20 @@ function afficherTravauxModal(works) {
         imageElement.classList.add("modal-image");
         deleteIcon.classList.add("fas", "fa-trash-can", "delete-icon");
         
+        /* suppression du travail au click sur la croix*/
         deleteIcon.addEventListener('click', () => {
-        
             const optionRequetePostDelete = {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
             };
-            console.log("Ce que contient la const optionRequete", optionRequetePostDelete, travail.id);
     
             fetch("http://localhost:5678/api/works/"+travail.id, optionRequetePostDelete);
-
             window.alert("Vous avez supprimé un projet");
-            
-            element.remove();
+            element.remove(); //effacement du travail dans la modal
 
-            while (galleryIndex.firstChild) {
+            while (galleryIndex.firstChild) { //mise à jour de la gallery
                 galleryIndex.removeChild(galleryIndex.firstChild);
             }
             initialisation();
@@ -350,7 +309,7 @@ function afficherTravauxModal(works) {
     }
 }
 
-function nettoyerTravauxModal() {
+function nettoyerTravauxModal() { //fonction pour mettre à jour la gallery
     const galleryModif = document.querySelector("#galleryModif");
 
     while (galleryModif.firstChild) {
@@ -367,7 +326,7 @@ async function travauxModal() {
     afficherFormulaire();
 }
 
-if (token) {
+if (token) { //s'il y a un token de connexion, bouton modifier et se déconnecter
     console.log("Il y a un token dans le sessionStorage");
 
     modification.style.display = "flex";
@@ -429,13 +388,13 @@ if (token) {
 
     boutonDeconnexion.addEventListener('click', () => {
         supprimerToken();
-        location.reload();
+        location.reload(); //rechargement de la page sans le token
     })
 
-    // Attachez un gestionnaire d'événements à l'événement beforeunload pour supprimer le token lors de la fermeture de la page
+    //beforeunload pour supprimer le token lors de la fermeture de la page
     window.addEventListener('beforeunload', supprimerToken);
 } 
-else {
+else { //si pas de token = les boutons ne s'affichent pas
     console.log("Il n'y a rien dans le sessionStorage");
     modal.style.display = "none";
 }

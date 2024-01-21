@@ -1,23 +1,16 @@
 function authentification() {
     const lancement = document.getElementById('seConnecter');
-    console.log("Affiche ce qu'est 'lancement' :", lancement);
 
     lancement.addEventListener("click", function (event) {
         event.preventDefault(); // Empêche la soumission du formulaire
 
-        console.log("Le bouton 'Se connecter' fonctionne");
-        console.log("Récupération des identifiants");
-
         const email = document.querySelector('#userInput').value;
         const password = document.querySelector('#MDPInput').value;
-
-        console.log("Identifiant :", email, "Mot de passe :", password);
-
+        
         const data = {
             email: email,
             password: password,
         };
-        console.log("Ce qu'il y a dans la const data", data);
 
         const optionRequete = {
             method: 'POST',
@@ -26,16 +19,12 @@ function authentification() {
             },
             body: JSON.stringify(data), // Convertir l'objet en une chaîne JSON
         };
-        console.log("Ce que contient la const optionRequete", optionRequete);
 
         fetch("http://localhost:5678/api/users/login", optionRequete)
             .then(response => {
-                console.log("resp", response);
-
                 if (!response.ok) {
                     window.alert('Email ou mot de passe invalide');
                 }
-
                 return response.json();
             })
             .then(responseData => {

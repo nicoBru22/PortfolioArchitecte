@@ -13,7 +13,6 @@ function afficherTravaux(works){
         const element = document.createElement("figure");
     
         /*création de l'image, du titre et de la catégorie d'un travail*/
-    
         const imageElement = document.createElement("img");
         imageElement.src = travail.imageUrl;
         const titreElement = document.createElement("figcaption");
@@ -21,13 +20,11 @@ function afficherTravaux(works){
         const categorieElement = document.createElement("figcaption");
         categorieElement.innerText = travail.category.name;
     
-        /*récupération des élements dans une fiche dans la gallery*/
-    
+        /*récupération des élements dans une figure dans la gallery*/
         sectionGallery.appendChild(element);
         element.appendChild(imageElement);
         element.appendChild(titreElement);
         element.appendChild(categorieElement);
-    
     }
 };
 
@@ -38,51 +35,51 @@ async function initialisation(){
     afficherTravaux(travaux);
 
     /* je créé une constante boutonObjet en lien avec la balise id du html boutonObjet*/
-    const boutonObjets = document.querySelector("#boutonObjets"); 
+    const boutonObjets = document.querySelector("#boutonObjets");
     /* j'ajoute un auditeur d'evenement click et je lui demande de faire quelque chose*/
     boutonObjets.addEventListener("click", function () { 
-        /* je créé la constante object_works qui prend pour valeur les éléments du tableau travaux de l'api*/
+
+        /* je créé la constante object_works qui prend pour valeur les éléments du tableau travaux de l'api et renvoi seulement ceux de catégorie id 1*/
         const object_works = travaux.filter(function (element) { 
             return element.category.id == 1
         });
-        console.log("On recupère les object", object_works.length, object_works)
+
         /*remise a zéro de la div gallery du html */
-        document.querySelector(".gallery").innerHTML=""; 
+        document.querySelector(".gallery").innerHTML="";
+
         /*affiche les travaux object_works défini plus haut*/
         afficherTravaux(object_works) 
     });
 
+    /* je fais la même chose pour le filtre appartement*/
     const boutonAppartements = document.querySelector("#boutonAppartements");
     boutonAppartements.addEventListener("click", function () {
         const appart_works = travaux.filter(function (travail) {
             return travail.category.id == 2
         });
-        console.log("on récupère les appartements", appart_works.length, appart_works)
         document.querySelector(".gallery").innerHTML="";
         afficherTravaux(appart_works)
     });
 
+    /* je fais la même chose pour le filtre hotel et restaurant*/
     const boutonHR = document.querySelector("#boutonHR");
     boutonHR.addEventListener("click", function () {
         const HR_works = travaux.filter(function (travail) {
             return travail.category.id == 3
         });
-        console.log("on récupère les hotels & restaurants", HR_works.length, HR_works)
         document.querySelector(".gallery").innerHTML="";
         afficherTravaux(HR_works)
     });
 
+    /* je fais la même chose pour afficher tous les works*/
     const boutonTous = document.querySelector("#boutonTous");
     boutonTous.addEventListener("click", function () {
         const tous_works = travaux.filter(function (travail) {
             return travail.category.id == 1, 2, 3
         });
-        console.log("on récupère tous les travaux", tous_works.length, tous_works)
         document.querySelector(".gallery").innerHTML="";
         afficherTravaux(tous_works)
     });
 }
 
 initialisation(); /*joue le code de la fonction initialisation et donc affiche les travaux demandés*/
-
-console.log("le code js fonctionne");
