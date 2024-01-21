@@ -6,7 +6,6 @@ function authentification() {
 
         const email = document.querySelector('#userInput').value;
         const password = document.querySelector('#MDPInput').value;
-        
         const data = {
             email: email,
             password: password,

@@ -190,7 +190,7 @@ function afficherFormulaire() { //je créé les modal et le formulaire pour pouv
         .then(data => {
             const selectCat = document.querySelector('.selectCatTravail');
 
-            // Ajoute les catégories à la liste déroulante
+            // Ajout des catégories à la liste déroulante
             data.forEach(category => {
                 const option = document.createElement('option');
                 option.value = category.id;
