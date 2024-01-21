@@ -176,7 +176,7 @@ function afficherFormulaire() { //je créé les modal et le formulaire pour pouv
             }
         });
 
-        //ouvre la modalb actuelle et ferme la modale du formulaire
+        //ouvre la modal B (formulaire d'ajout) et ferme la modal A
         ajouterPhotoButton.addEventListener('click', () => {
             modalb.style.display = 'flex';
             modalA.style.display = "none";
@@ -206,7 +206,6 @@ function afficherFormulaire() { //je créé les modal et le formulaire pour pouv
 
     ajoutImg.addEventListener('change', (event) => {
         selectedImage = event.target.files[0];
-        console.log("console log dans l addeventlistener",selectedImage)
     
         /* je fais une prévisualitation de l'image*/
         const imagePreview = document.getElementById('imageAffiche');
@@ -218,12 +217,10 @@ function afficherFormulaire() { //je créé les modal et le formulaire pour pouv
         iconeImg.style.display = 'none';
     });
 
-    // j'envoi le formulaire sur le serveur
-
     formModal.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        // Récupérez les valeurs du formulaire
+        //Je récupère les valeurs du formulaire
         const form = new FormData();
         const image = ajoutImg.files[0];
         const titre = inputTitre.value;
