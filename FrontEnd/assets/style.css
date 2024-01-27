@@ -53,6 +53,14 @@ body {
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
+#modeEdition {
+	display: none;
+	justify-content: center;
+  	background-color: black;
+  	color: white;
+  	height: 40px;
+  	align-items: center;
+}
 header {
 	display: flex;
 	justify-content: space-between;
@@ -158,8 +166,13 @@ li:hover {
 .boutonFiltre:active {
 	background-color: #1D6154;
 	color: white; /* Couleur du texte lorsque le bouton est enfoncé */
-
 }
+
+.boutonFiltre:focus {
+  background-color: #1D6154;
+  color: white;
+}
+
 .gallery {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;

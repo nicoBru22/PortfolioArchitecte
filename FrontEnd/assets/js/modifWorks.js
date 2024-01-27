@@ -326,6 +326,8 @@ async function travauxModal() {
 if (token) { //s'il y a un token de connexion, bouton modifier et se déconnecter
     console.log("Il y a un token dans le sessionStorage");
 
+    const Edition = document.getElementById('modeEdition');
+    Edition.style.display = "flex";
     modification.style.display = "flex";
     boutonDeconnexion.style.display = "flex";
     const login = document.getElementById('login');

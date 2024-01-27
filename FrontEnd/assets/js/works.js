@@ -68,7 +68,7 @@ async function initialisation(){
             return travail.category.id == 3
         });
         document.querySelector(".gallery").innerHTML="";
-        afficherTravaux(HR_works)
+        afficherTravaux(HR_works);
     });
 
     /* je fais la même chose pour afficher tous les works*/
@@ -80,6 +80,29 @@ async function initialisation(){
         document.querySelector(".gallery").innerHTML="";
         afficherTravaux(tous_works)
     });
+
 }
 
 initialisation(); /*joue le code de la fonction initialisation et donc affiche les travaux demandés*/
+
+document.addEventListener("DOMContentLoaded", function() {
+    const boutonTous = document.getElementById("boutonTous");
+    boutonTous.focus();
+
+    document.addEventListener("mousedown", function(event) {
+        if (isInsideButton(event.target)) {
+            return;
+        }
+        event.preventDefault();
+    });
+    function isInsideButton(target) {
+        let currentElement = target;
+        while (currentElement !== document.body) {
+            if (currentElement.classList && currentElement.classList.contains("boutonFiltre")) {
+                return true;
+            }
+            currentElement = currentElement.parentNode;
+        }
+        return false;
+    }
+});
